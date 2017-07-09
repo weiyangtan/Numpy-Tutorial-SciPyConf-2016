@@ -1,3 +1,5 @@
+*Credit to enthought for this wonderful tutorial*
+
 # SciPy2016 tutorial: Introduction to NumPy
 
 This repository contains all the material needed by students registered for the
