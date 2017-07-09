@@ -71,12 +71,12 @@ img = imread('dc_metro.JPG')
 
 close('all')
 # 2x2 layout, first plot: sin and cos
-subplot(2, 2, 1)
+ax1 = subplot(2, 2, 1)
 plot(x, s, 'b-', x, c, 'r+')
 axis('tight')
 
 # 2nd plot: gridlines, labels
-subplot(2, 2, 2)
+subplot(2, 2, 2, sharex=ax1, sharey=ax1)
 plot(x, s)
 grid()
 xlabel('radians')
@@ -93,4 +93,4 @@ tight_layout()
 show()
 
 
-savefig('my_plots.png')
+#savefig('my_plots.png')

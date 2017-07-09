@@ -62,10 +62,37 @@ See :ref:`plotting-solution`.
 from numpy import linspace, pi, sin, cos
 from matplotlib.pyplot import (plot, subplot, cm, imread, imshow, xlabel,
                                ylabel, title, grid, axis, show, savefig, gcf,
-                               figure, close, tight_layout)
+                               figure, close, tight_layout, colorbar, setp)
 
 x = linspace(0, 2 * pi, 101)
 s = sin(x)
 c = cos(x)
 
 img = imread('dc_metro.JPG')
+
+close('all') # good practice to clear all plots
+
+# plot 1: sine and cosine curve
+ax1 = subplot(2,2,1)
+plot(x, s, 'b', x, c, 'rx')
+axis('tight')
+setp(ax1.get_xticklabels(), visible=False)
+
+# plot 2: sine curve with grids
+ax2 = subplot(2,2,3, sharex=ax1)
+plot(x, s)
+title('Sine Curve of X')
+xlabel('radians')
+ylabel('amplitude')
+grid()
+axis('tight')
+
+# plot 3: image
+subplot(2,2,2)
+imshow(img, extent=[-10,10,-1,10], cmap=cm.winter)
+colorbar()
+
+tight_layout()
+#show()
+savefig('my_plots.png', bbox_inches='tight')
+

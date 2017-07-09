@@ -50,8 +50,8 @@ waves in the Earth.
 
 See :ref:`structured-array-solution`.
 """
-from numpy import dtype, loadtxt, float64, NaN, isfinite, all
-from matplotlib.pyplot import plot, show, xlabel, ylabel
+from numpy import dtype, loadtxt, float64, NaN, isfinite, all, logical_not
+from matplotlib.pyplot import plot, show, xlabel, ylabel, title, savefig
 
 # Open the file.
 log_file = open('short_logs.crv')
@@ -59,3 +59,41 @@ log_file = open('short_logs.crv')
 # The first line is a header that has all the log names.
 header = log_file.readline()
 log_names = header.split()
+#print log_names
+
+# 1. Preparing the data structure
+pairing = []
+for i in log_names:
+    pairing.append((i, float64))
+#print pairing
+fmt = dtype(pairing)
+
+# 2. reading the data
+logs = loadtxt('short_logs.crv', dtype=fmt, skiprows=1)
+#print logs
+
+# 3. 2D view
+logs_2d = logs.view(float64)
+#print logs_2d
+logs_2d = logs_2d.reshape(-1, len(log_names)) # -1 means "as many rows as necessary"
+#print logs_2d
+
+# 4. replace -999.25 with NaN
+mask = logs_2d == -999.25
+logs_2d[mask] = NaN
+#print logs
+
+# 5. mask of all rows without NaN
+inv_mask = logical_not(mask)
+mask_all = inv_mask.all(axis=1)
+#print mask_all
+
+# 6. plot VP vs VS for complete rows
+complete_vp = logs['VP'][mask_all]
+complete_vs = logs['VS'][mask_all]
+plot(complete_vp, complete_vs, 'o', markersize=1)
+title('VP against VS plot')
+xlabel('VP values')
+ylabel('VS values')
+savefig('vp_vs.png')
+show()

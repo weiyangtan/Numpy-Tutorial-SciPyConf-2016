@@ -58,3 +58,15 @@ See :ref:`load-text-solution`
 """
 
 from numpy import loadtxt
+
+d1 = loadtxt('float_data.txt')
+print 'first answer:'
+print d1
+
+d2 = loadtxt('float_data_with_header.txt', skiprows=1)
+print 'second answer:'
+print d2
+
+d3 = loadtxt('complex_data_file.txt', dtype='int', delimiter=',', comments='%', skiprows=1, usecols=(0,1,2,4))
+print 'bonus answer:'
+print d3

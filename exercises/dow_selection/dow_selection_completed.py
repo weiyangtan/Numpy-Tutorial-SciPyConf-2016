@@ -35,8 +35,8 @@ Bonus
 See :ref:`dow-selection-solution`.
 """
 
-from numpy import loadtxt, sum, where
-from matplotlib.pyplot import figure, hold, plot, show
+from numpy import loadtxt, sum, where, arange
+from matplotlib.pyplot import figure, hold, plot, show, savefig, title, xlabel, ylabel, grid
 
 # Constants that indicate what data is held in each column of
 # the 'dow' array.
@@ -54,14 +54,41 @@ dow = loadtxt('dow.csv', delimiter=',')
 
 # 1. Create a "mask" array that indicates which rows have a volume
 #    greater than 5.5 billion.
-
+print 'shape of data array:', dow.shape
+print 'type of data array:', dow.dtype
+mask = dow[:,4] > (5.5 * (10**9))
+#print 'mask for volume > 5.5b:'
+#print mask
+print
 
 # 2. How many are there?  (hint: use sum).
+print 'total rows with volume > 5.5b:', mask.sum()
+print
 
 # 3. Find the index of every row (or day) where the volume is greater
 #    than 5.5 billion. hint: look at the where() command.
+index_mask = where(mask == True)
+print 'index of rows with volume > 5.5b:', index_mask
+print
+#verification if indexes are correct
+#print index_mask[0].shape
+#mask[index_mask] = False
+#print mask
 
 # BONUS:
 # a. Plot the adjusted close for EVERY day in 2008.
+adj_close = dow[:,5]
+r = arange(len(adj_close))
+#print r
+plot(r, adj_close)
+
 # b. Now over-plot this plot with a 'red dot' marker for every
 #    day where the volume was greater than 5.5 billion.
+plot(index_mask[0], adj_close[mask], 'ro')
+title('Dow Index, volume > 5.5 billion')
+xlabel('Day')
+ylabel('Adjusted Closing Price')
+grid()
+
+savefig('dow_chart.png')
+show()

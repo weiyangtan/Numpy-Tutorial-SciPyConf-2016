@@ -73,3 +73,51 @@ See :ref:`wind-statistics-solution`.
 """
 
 from numpy import loadtxt
+
+YEAR = 0
+MONTH = 1
+DAY = 2
+
+# 1. read data into array
+wind = loadtxt('wind.data')
+#print wind.shape
+
+# 2. calculate min, max, mean, std of wind data
+wind_data = wind[:,3:]
+#print wind_data.shape
+print 'min of all data:', wind_data.min()
+print 'max of all data:', wind_data.max()
+print 'mean of all data:', wind_data.mean()
+print 'std of all data:', wind_data.std()
+print
+
+# 3. calculate stats at each location
+print 'min of locations:', wind_data.min(axis=0)
+print 'max of locations:', wind_data.max(axis=0)
+print 'mean of locations:', wind_data.mean(axis=0)
+print 'std of locations:', wind_data.std(axis=0)
+print 
+
+# 4. calculate stats of each day across all locations
+print 'min of day', wind_data.min(axis=1)
+print 'max of day:', wind_data.max(axis=1)
+print 'mean of day:', wind_data.mean(axis=1)
+print 'std of day:', wind_data.std(axis=1)
+print 
+
+# 5. location with greatest windspeed each day
+print 'locations with max wind per day:', wind_data.argmax(axis=1)
+print 
+
+# 6. year, month, day of max windspeed across all data
+max_day = wind_data.max(axis=1)
+index_max = max_day.argmax()
+print 'date of greatest wind in history:', wind[index_max,:3]
+print
+
+# 7. average at each location in january
+index_jan = wind[:,1] == 1
+jan_wind = wind_data[index_jan]
+#print jan_wind.shape
+print 'january avg at each locations:', jan_wind.mean(axis=0)
+print
